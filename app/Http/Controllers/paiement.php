@@ -15,8 +15,17 @@ class paiement extends Controller
     {
         return view('welcome');
     }
-    public function notify()
+    public function notify(Request $request)
     {
+        dd($request);
+        $data = $cpm_site_id.$cpm_trans_id.$cpm_trans_date.$cpm_amount.$cpm_currency .
+            $signature.$payment_method.$cel_phone_num.$cpm_phone_prefixe.
+            $cpm_language.$cpm_version.$cpm_payment_config.$cpm_page_action.$cpm_custom;
+             
+        $token = hash_hmac(‘SHA256’, $data, $secretKey);
+        if (hash_equals($received_token, $generated_token)) {
+        }
+
         return view('welcome');
     }
     public function retour()
@@ -65,8 +74,8 @@ class paiement extends Controller
         if ($response->status() === 200) {
             if ((int)$response_body["code"] === 201) {
                 $payment_link = $response_body["data"]["payment_url"];
-               // dd($payment_link);
-               return Redirect::to($payment_link);
+                // dd($payment_link);
+                return Redirect::to($payment_link);
             }
         } else {
             dd($response_body);
