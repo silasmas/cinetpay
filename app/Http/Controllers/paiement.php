@@ -28,8 +28,9 @@ class paiement extends Controller
 
         return view('welcome');
     }
-    public function retour()
+    public function (Request $request)
     {
+        dd($request);
         return view('welcome');
     }
     public function genererChaineAleatoire($longueur = 10)
