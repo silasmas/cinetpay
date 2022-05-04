@@ -66,7 +66,7 @@ class paiement extends Controller
             if ((int)$response_body["code"] === 201) {
                 $payment_link = $response_body["data"]["payment_url"];
                // dd($payment_link);
-                Redirect::to($payment_link);
+               return Redirect::to($payment_link);
             }
         } else {
             dd($response_body);
