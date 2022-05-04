@@ -28,7 +28,7 @@ class paiement extends Controller
 
         return view('welcome');
     }
-    public function (Request $request)
+    public function retour(Request $request)
     {
         dd($request);
         return view('welcome');
