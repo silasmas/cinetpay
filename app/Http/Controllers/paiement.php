@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Nette\Utils\Random;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class paiement extends Controller
+{
+    
+
+    public function index(){
+        return view('welcome');
+    }
+    public function notify(){
+        return view('welcome');
+    }
+    public function retour(){
+        return view('welcome');
+    }
+    public function paie(Request $request){
+        
+        $transaction_id= rand(10,10000);
+        $cinetpay_data =  [
+            "amount"=> $request["montant"],
+            "currency"=> $request["devise"],
+            "apikey"=> env("CINETPAY_APIKEY"),
+            "site_id"=> env("CINETPAY_SERVICD_ID"),
+            "transaction_id"=> $transaction_id,
+            "description"=> $request["seqcription"],
+            "return_url"=> env("RETURN_URL"),
+            "notify_url"=> env("NOTIFY_URL"),
+            "metadata"=> "user001",
+            'customer_surname'=> $request["payer_surname"],
+            'customer_name'=> $request["payer_name"] ,
+            'customer_email'=> $request["payer_mail"],
+            'customer_phone_number'=> $request["phone"],
+            'customer_address'=>$request["adresse"],
+            'customer_city'=> $request["ville"],
+            'customer_country'=> $request["customer_country"],
+            'customer_state'=> $request["customer_state"],
+            'customer_zip_code'=> $request["customer_zip_code"],
+        ];
+        $url='https://api-checkout.cinetpay.com/v2/payment';
+        $response = Http::asJson()->post($url, $cinetpay_data);
+    $message = "Un problème est survenu, merci de reprendre votre paiement";
+
+    $response_body = json_decode($response->body(), JSON_THROW_ON_ERROR | true, 512, JSON_THROW_ON_ERROR);
+    if ($response->status() === 200){
+      if ((int)$response_body["code"] === 201){
+            $payment_link = $response_body["data"]["payment_url"];
+           Redirect::to($payment_link );
+       }
+}
+
+
+
+    }
+}
