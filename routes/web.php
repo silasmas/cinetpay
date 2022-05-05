@@ -17,5 +17,6 @@ use Illuminate\Support\Facades\Route;
  Route::get('/', [paiement::class,'index']);
  Route::post('/init', [paiement::class,'paie'])->name('init');
  
+ Route::get('/retour', [paiement::class,'index'])->name('retour');
  Route::post('/retour', [paiement::class,'retour'])->name('retour');
  Route::post('/notify', [paiement::class,'notify'])->name('notify');

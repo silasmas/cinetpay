@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('currency');
             $table->string('transaction_id');
             $table->string('token')->nullable();
+            $table->string('operateur')->nullable();
             $table->string('description');
             $table->string('metadata')->nullable();
             $table->string('customer_surname');
