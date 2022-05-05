@@ -54,7 +54,7 @@ class paiement extends Controller
                 $data=$response_body;
                 return view('notify',compact('data'));
             }
-            dd($response_body);
+           // dd($response_body);
         }
     }
     public function genererChaineAleatoire($longueur = 10)
