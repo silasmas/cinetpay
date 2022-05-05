@@ -44,9 +44,18 @@ class paiement extends Controller
             $response = Http::asJson()->post($url, $cinetpay_verify);
 
             $response_body = json_decode($response->body(), JSON_THROW_ON_ERROR | true, 512, JSON_THROW_ON_ERROR);
+            
+            if ((int)$response_body["code"] === 201) {
+                $retour->etat=$response_body['data']['status'];
+                $data=$response_body;
+                return view('notify',compact('data'));
+            }else{
+                $retour->etat=$response_body['data']['status'];
+                $data=$response_body;
+                return view('notify',compact('data'));
+            }
             dd($response_body);
         }
-        return view('welcome');
     }
     public function genererChaineAleatoire($longueur = 10)
     {
