@@ -40,7 +40,7 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Description (raison de paiement)
                             :</label>
-                        <input type="text" name="description" value="juste pour testé" class="form-control">
+                        <input type="text" name="description" value="juste pour testé" class="form-control" required>
                     </div>
                     {{-- <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label"></label>
@@ -48,27 +48,27 @@
                 </div> --}}
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Votre nom :</label>
-                        <input type="text" name="payer_name" value="masimango" class="form-control">
+                        <input type="text" name="payer_name" value="masimango" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Votre prenom :</label>
-                        <input type="text" name="payer_surname" value="silas" class="form-control">
+                        <input type="text" name="payer_surname" value="silas" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Votre e-ùail :</label>
-                        <input type="text" name="payer_mail" value="silasjmas@gmail.com" class="form-control">
+                        <input type="text" name="payer_mail" value="silasjmas@gmail.com" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Téléphone :</label>
-                        <input type="text" name="phone" value="+243827839232" class="form-control">
+                        <input type="text" name="phone" value="+243827839232" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Adresse :</label>
-                        <input type="text" name="adresse" value="limeté" class="form-control">
+                        <input type="text" name="adresse" value="limeté" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Ville :</label>
-                        <input type="text" name="ville" value="KINSHASA" class="form-control">
+                        <input type="text" name="ville" value="KINSHASA" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         {{-- <label for="exampleInputEmail1" class="form-label">Pays </label> --}}
@@ -76,12 +76,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Cité (pour la carte bancaire)</label>
-                        <input type="text" name="customer_state" value="californi" class="form-control">
+                        <input type="text" name="customer_state" value="californi" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Code postal (pour la carte bancaire)
                             :</label>
-                        <input type="text" name="customer_zip_code" value="065100" class="form-control">
+                        <input type="text" name="customer_zip_code" value="065100" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         {{-- <label for="exampleInputEmail1" class="form-label">Email address</label> --}}
