@@ -19,16 +19,39 @@ class paiement extends Controller
     }
     public function notify(Request $request)
     {
-        dd($request);
-        $data = $cpm_site_id . $cpm_trans_id . $cpm_trans_date . $cpm_amount . $cpm_currency .
-            $signature . $payment_method . $cel_phone_num . $cpm_phone_prefixe .
-            $cpm_language . $cpm_version . $cpm_payment_config . $cpm_page_action . $cpm_custom;
+        // dd($request);
+        // $data = $cpm_site_id . $cpm_trans_id . $cpm_trans_date . $cpm_amount . $cpm_currency .
+        //     $signature . $payment_method . $cel_phone_num . $cpm_phone_prefixe .
+        //     $cpm_language . $cpm_version . $cpm_payment_config . $cpm_page_action . $cpm_custom;
 
-        $token = hash_hmac(‘SHA256’, $data, $secretKey);
-        if (hash_equals($received_token, $generated_token)) {
+        // $token = hash_hmac(‘SHA256’, $data, $secretKey);
+        // if (hash_equals($received_token, $generated_token)) {
+        // }
+
+        // return view('welcome');
+        $url = 'https://api-checkout.cinetpay.com/v2/payment/check';
+        $retour=paie::where([["token",$request->token],["transaction_id",$request->transaction_id]])->first();
+        if($retour){
+            $cinetpay_verify=  [
+                "apikey" => env("CINETPAY_APIKEY"),
+                "site_id" => env("CINETPAY_SERVICD_ID"),
+                "transaction_id" => $request->transaction_id,
+            ];
+            $response = Http::asJson()->post($url, $cinetpay_verify);
+
+            $response_body = json_decode($response->body(), JSON_THROW_ON_ERROR | true, 512, JSON_THROW_ON_ERROR);
+            
+            if ((int)$response_body["code"] === 201) {
+                $retour->etat=$response_body['data']['status'];
+                $data=$response_body;
+                return view('notify',compact('data'));
+            }else{
+                $retour->etat=$response_body['data']['status'];
+                $data=$response_body;
+                return view('notify',compact('data'));
+            }
+           // dd($response_body);
         }
-
-        return view('welcome');
     }
     public function retour(Request $request)
     {
