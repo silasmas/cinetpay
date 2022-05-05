@@ -43,10 +43,12 @@ class paiement extends Controller
             
             if ((int)$response_body["code"] === 201) {
                 $retour->etat=$response_body['data']['status'];
+                $retour->save();
                 $data=$response_body;
                 return view('notify',compact('data'));
             }else{
                 $retour->etat=$response_body['data']['status'];
+                $retour->save();
                 $data=$response_body;
                 return view('notify',compact('data'));
             }
@@ -70,10 +72,12 @@ class paiement extends Controller
             
             if ((int)$response_body["code"] === 201) {
                 $retour->etat=$response_body['data']['status'];
+                $retour->save();
                 $data=$response_body;
                 return view('notify',compact('data'));
             }else{
                 $retour->etat=$response_body['data']['status'];
+                $retour->save();
                 $data=$response_body;
                 return view('notify',compact('data'));
             }
