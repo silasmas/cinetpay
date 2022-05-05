@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use App\Models\paiement as paie;
 
 class paiement extends Controller
 {
@@ -31,7 +32,20 @@ class paiement extends Controller
     }
     public function retour(Request $request)
     {
-        dd($request);
+        // dd($request);
+        $url = 'https://api-checkout.cinetpay.com/v2/payment/check';
+        $retour=paie::where([["token",$request->token],["transaction_id",$request->transaction_id]])->first();
+        if($retour){
+            $cinetpay_verify=  [
+                "apikey" => env("CINETPAY_APIKEY"),
+                "site_id" => env("CINETPAY_SERVICD_ID"),
+                "transaction_id" => $request->transaction_id,
+            ];
+            $response = Http::asJson()->post($url, $cinetpay_verify);
+
+            $response_body = json_decode($response->body(), JSON_THROW_ON_ERROR | true, 512, JSON_THROW_ON_ERROR);
+            dd($response_body);
+        }
         return view('welcome');
     }
     public function genererChaineAleatoire($longueur = 10)
@@ -59,6 +73,7 @@ class paiement extends Controller
         ]);
         if (!$ok->fails()) {
             $transaction_id = $this->genererChaineAleatoire();
+
             $cinetpay_data =  [
                 "amount" => $request["montant"],
                 "currency" => $request["devise"],
@@ -81,20 +96,41 @@ class paiement extends Controller
             ];
             $url = 'https://api-checkout.cinetpay.com/v2/payment';
             $response = Http::asJson()->post($url, $cinetpay_data);
-            $message = "Un problème est survenu, merci de reprendre votre paiement";
 
             $response_body = json_decode($response->body(), JSON_THROW_ON_ERROR | true, 512, JSON_THROW_ON_ERROR);
-            if ($response->status() === 200) {
-                if ((int)$response_body["code"] === 201) {
-                    $payment_link = $response_body["data"]["payment_url"];
-                    // dd($payment_link);
-                    return Redirect::to($payment_link);
+
+            $register = paie::create([
+                "amount" => $request["montant"],
+                "currency" => $request["devise"],
+                "transaction_id" => $transaction_id,
+                "description" => $request["description"],
+                "token" => $response_body["data"]["payment_token"],
+                "metadata" => "user001",
+                'customer_surname' => $request["payer_surname"],
+                'customer_name' => $request["payer_name"],
+                'customer_email' => $request["payer_mail"],
+                'customer_phone_number' => $request["phone"],
+                'customer_address' => $request["adresse"],
+                'customer_city' => $request["ville"],
+                'customer_country' => $request["customer_country"],
+                'customer_state' => $request["customer_state"],
+                'customer_zip_code' => $request["customer_zip_code"],
+                'etat' => "en cours",
+            ]);
+            if ($register) {
+                if ($response->status() === 200) {
+                    // dd($response_body["code"] );
+                    if ((int)$response_body["code"] === 201) {
+                        $payment_link = $response_body["data"]["payment_url"];
+                        return Redirect::to($payment_link);
+                    }
+                } else {
+                    dd($response_body);
                 }
-            } else {
-                dd($response_body);
+            }else{
+                dd("Erreur d'enregistrement!");
             }
-        }else{
-            
+        } else {
         }
     }
 }
