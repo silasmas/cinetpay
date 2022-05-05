@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('transaction_id');
             $table->string('token')->nullable();
             $table->string('operateur')->nullable();
+            $table->string('message')->nullable();
             $table->string('description');
             $table->string('metadata')->nullable();
             $table->string('customer_surname');
