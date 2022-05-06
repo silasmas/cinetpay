@@ -80,7 +80,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Moyen de paiement</label>
-                        <select class="form-select"  name="channels" aria-label="Default select example">
+                        <select class="form-select"  name="channels" required>
                             <option value="" selected>Selectionnez le moyen de paiement</option>
                             <option value="MOBILE_MONEY">Mobile money</option>
                             <option value="CREDIT_CARD">Carte bancaire</option>

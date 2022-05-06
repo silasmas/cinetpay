@@ -1,4 +1,4 @@
-<select name="customer_country" aria-label="Default select example" class="form-select">
+<select name="customer_country" class="form-select" required>
     <option value="" selected>Selectionnez votre pays</option>
 	<option value="AF">Afghanistan</option>
 	<option value="AX">Åland Islands</option>
