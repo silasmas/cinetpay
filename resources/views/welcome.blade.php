@@ -27,25 +27,22 @@
                     @csrf
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Montant :</label>
-                        <input type="text" name="montant" value="100" class="form-control">
+                        <input type="text" name="montant" value="100" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Devise (CDF ou USD) :</label>
-                        <input type="text" name="devise" value="CDF" class="form-control">
+                        <label for="exampleInputEmail1" class="form-label">Devise :</label>
+                        <select class="form-select"  name="devise"  required>
+                            <option value="" selected>Selectionnez la devise</option>
+                            <option value="CDF">FRANC CONGOLAIS</option>
+                            <option value="USD">DOLLARD</option>
+                          </select>
                     </div>
-                    {{-- <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label"></label>
-                    <input type="text" name="alternative_currency" value="" class="form-control">
-                </div> --}}
+                        
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Description (raison de paiement)
                             :</label>
                         <input type="text" name="description" value="juste pour testé" class="form-control" required>
                     </div>
-                    {{-- <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label"></label>
-                    <input type="text" name="customer_id" value="123" class="form-control">
-                </div> --}}
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Votre nom :</label>
                         <input type="text" name="payer_name" value="masimango" class="form-control" required>
@@ -55,7 +52,7 @@
                         <input type="text" name="payer_surname" value="silas" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Votre e-ùail :</label>
+                        <label for="exampleInputEmail1" class="form-label">Votre e-mail :</label>
                         <input type="text" name="payer_mail" value="silasjmas@gmail.com" class="form-control" required>
                     </div>
                     <div class="mb-3">
@@ -71,31 +68,32 @@
                         <input type="text" name="ville" value="KINSHASA" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        {{-- <label for="exampleInputEmail1" class="form-label">Pays </label> --}}
-                        <input type="text" name="customer_country" value="CM" class="form-control" hidden>
+                        <label for="exampleInputEmail1" class="form-label">Selectionnez votre pays </label>
+                        {{-- <input type="text" name="customer_country" value="CM" class="form-control" hidden> --}}
+                        @include('listepays')
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Cité (pour la carte bancaire)</label>
-                        <input type="text" name="customer_state" value="californi" class="form-control" required>
-                    </div>
+                    
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Code postal (pour la carte bancaire)
                             :</label>
                         <input type="text" name="customer_zip_code" value="065100" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        {{-- <label for="exampleInputEmail1" class="form-label">Email address</label> --}}
-                        <input type="text" name="channels" value="ALL" class="form-control" hidden>
+                        <label for="exampleInputEmail1" class="form-label">Moyen de paiement</label>
+                        <select class="form-select"  name="channels" aria-label="Default select example">
+                            <option value="" selected>Selectionnez le moyen de paiement</option>
+                            <option value="MOBILE_MONEY">Mobile money</option>
+                            <option value="CREDIT_CARD">Carte bancaire</option>
+                            <option value="ALL">Les deux</option>
+                          </select>
+                    </div>                  
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">votre Etat (obligatoire si vous êtes au canada ou aux USA)</label>
+                        <input type="text" name="customer_state" value="californi" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        {{-- <label for="exampleInputEmail1" class="form-label"></label> --}}
-                        <input type="text" name="metadata" value="user1" class="form-control" hidden>
-                    </div>
-                    <div class="mb-3">
-                        {{-- <label for="exampleInputEmail1" class="form-label">Email address</label> --}}
-                        <input type="text" name="lang" value="fr" class="form-control" hidden>
-                    </div>
                     <button type="submit" class="btn btn-primary">Envoyer</button>
+                </div>
                 </form>
 
             </div>

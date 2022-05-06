@@ -89,7 +89,6 @@ class paiement extends Controller
                 $data=$response_body;
                 return view('notify',compact('data'));
             }
-           // dd($response_body);
         }
     }
     public function genererChaineAleatoire($longueur = 10)
@@ -134,6 +133,7 @@ class paiement extends Controller
                 'customer_phone_number' => $request["phone"],
                 'customer_address' => $request["adresse"],
                 'customer_city' => $request["ville"],
+                'channels' => $request["channels"],
                 'customer_country' => $request["customer_country"],
                 'customer_state' => $request["customer_state"],
                 'customer_zip_code' => $request["customer_zip_code"],
@@ -142,7 +142,7 @@ class paiement extends Controller
             $response = Http::asJson()->post($url, $cinetpay_data);
 
             $response_body = json_decode($response->body(), JSON_THROW_ON_ERROR | true, 512, JSON_THROW_ON_ERROR);
-
+            if ($response->status() === 200) {
             $register = paie::create([
                 "amount" => $request["montant"],
                 "currency" => $request["devise"],
@@ -156,24 +156,26 @@ class paiement extends Controller
                 'customer_phone_number' => $request["phone"],
                 'customer_address' => $request["adresse"],
                 'customer_city' => $request["ville"],
+                'operateur' => $request["channels"],
                 'customer_country' => $request["customer_country"],
                 'customer_state' => $request["customer_state"],
                 'customer_zip_code' => $request["customer_zip_code"],
                 'etat' => "en cours",
             ]);
             if ($register) {
-                if ($response->status() === 200) {
+                
                     // dd($response_body["code"] );
                     if ((int)$response_body["code"] === 201) {
                         $payment_link = $response_body["data"]["payment_url"];
                         return Redirect::to($payment_link);
                     }
-                } else {
-                    dd($response_body);
-                }
+                
             }else{
                 dd("Erreur d'enregistrement!");
             }
+        } else {
+            dd($response_body);
+        }
         } else {
         }
     }
